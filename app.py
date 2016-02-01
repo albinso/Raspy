@@ -19,6 +19,10 @@ def no_user():
 @app.route('/user/<name>')
 def user(name):
 	return render_template('user.html', name=name)
+@app.route('/image/<img>')
+def image(img):
+	print(img)
+	return render_template('image.html', img=img)
 
 
 if __name__ == '__main__':
