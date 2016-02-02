@@ -8,12 +8,14 @@ app = Flask(__name__)
 i = 0
 @app.route('/')
 def index():
-	global i
-	i+=1
-	if i == 3:
-		i = 0
-		return "Today's special!"
-	return render_template(INDEX_PAGE)
+	conn = sqlite3.connect('twatter.db')
+
+	c = conn.cursor()
+	s = "SELECT * FROM twats ORDER BY RANDOM() LIMIT 1"
+	c.execute(s)
+	data = c.fetchone()
+	conn.close()
+	return render_template(INDEX_PAGE, message=data[0])
 
 @app.route('/user/')
 def no_user():
@@ -25,6 +27,9 @@ def user(name):
 def image(img):
 	print(img)
 	return render_template('image.html', img=img)
+
+
+
 @app.route('/form', methods=['GET', 'POST'])
 def handle_data():
 	if request.method == 'POST':
@@ -32,11 +37,9 @@ def handle_data():
 		conn = sqlite3.connect('twatter.db')
 
 		c = conn.cursor()
-		print(request.form.keys())
 		s = "INSERT INTO twats VALUES(\"" + request.form['content'] + "\", " + str(time.time()) + ")"
-		print(s)
+		
 		c.execute(s)
-		print("got this far")
 		conn.commit()
 		conn.close()
 		return redirect("/form")
