@@ -16,8 +16,16 @@ def index_old():
 	c.execute(s)
 	data = c.fetchone()
 	conn.close()
-	return render_template(INDEX_PAGE, message=data[0])
+	message = data[0]
+	
+	return render_template(INDEX_PAGE, message=message)
 
+def checkInput(s):
+	print("bout to raise")
+	if len(s) == 0:
+		print("raised")
+		raise Exception("Nonono")
+	
 @app.route('/')
 def index():
 	log(request)
@@ -44,6 +52,7 @@ def handle_data():
 		conn = sqlite3.connect('twatter.db')
 
 		c = conn.cursor()
+		checkInput(request.form['content'])
 		s = "INSERT INTO twats VALUES(\"" + request.form['content'] + "\", " + str(time.time()) + ")"
 		
 		c.execute(s)
