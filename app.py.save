@@ -1,13 +1,13 @@
 from flask import Flask, render_template, request, redirect
 import sqlite3
 import time
-from readit import get_image_url, reddit_url
 
 INDEX_PAGE = "index.html"
 
 app = Flask(__name__)
 i = 0
-def index_old():
+@app.route('/')
+def index():
 	conn = sqlite3.connect('twatter.db')
 
 	c = conn.cursor()
@@ -16,11 +16,6 @@ def index_old():
 	data = c.fetchone()
 	conn.close()
 	return render_template(INDEX_PAGE, message=data[0])
-
-@app.route('/')
-def index():
-	url = get_image_url(reddit_url, cache=True)
-	return render_template('remote_image.html', url=url)
 
 @app.route('/user/')
 def no_user():

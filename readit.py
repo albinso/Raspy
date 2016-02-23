@@ -28,6 +28,7 @@ def get_image_url(url, regex='http(s)*://(i\.)*imgur\.com/.+\..+', ending='.jpg'
 	configs = get_configs()
 	if check_time():
 		cache = False
+	cache = True
 	if cache:
 		with open('cache.txt') as f:
 			data = f.read()
