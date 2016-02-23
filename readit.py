@@ -38,7 +38,7 @@ def get_image_url(url, regex='http(s)*://(i\.)*imgur\.com/.+\..+', ending='.jpg'
 		response = urllib.urlopen(url)
 		data = json.loads(response.read())
 		if data['data']['children']:
-			with open('niccache.txt', 'w') as f:
+			with open('cache.txt', 'w') as f:
 				f.write(data)
 
 
