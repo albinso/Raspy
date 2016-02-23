@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect
 import sqlite3
 import time
 from readit import get_image_url, reddit_url
-
+from log import log
 INDEX_PAGE = "index.html"
 
 app = Flask(__name__)
@@ -20,6 +20,7 @@ def index_old():
 
 @app.route('/')
 def index():
+	log(request)
 	url = get_image_url(reddit_url, cache=True)
 	return render_template('remote_image.html', url=url)
 
