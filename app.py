@@ -7,6 +7,7 @@ INDEX_PAGE = "index.html"
 
 app = Flask(__name__)
 i = 0
+@app.route("/old")
 def index_old():
 	conn = sqlite3.connect('twatter.db')
 
