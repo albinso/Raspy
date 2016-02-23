@@ -56,6 +56,6 @@ def get_image_url(url, regex='http(s)*://(i\.)*imgur\.com/.+\..+', ending='.jpg'
 			return imageurl
 		else:
 			print(imageurl)
-			return None
+			return get_image_url(url)
 
 print(get_image_url(reddit_url))
