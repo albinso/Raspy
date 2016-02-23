@@ -38,13 +38,14 @@ def get_image_url(url, regex='http(s)*://(i\.)*imgur\.com/.+\..+', ending='.jpg'
 		response = urllib.urlopen(url)
 		data = json.loads(response.read())
 		if data['data']['children']:
-			with open('cache.txt', 'w') as f:
+			with open('niccache.txt', 'w') as f:
 				f.write(data)
 
 
 	data = data['data']['children']
 	print(len(data))
-	r = random.randint(0, len(data)-1)
+	r = random.randint(0, len(data))-1
+
 	imageurl = data[r]['data']['url']
 	imageurl = re.sub('/gallery', '', imageurl)
 	imageurl = re.sub('.gifv', '.jpg', imageurl)
