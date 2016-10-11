@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect
 import sqlite3
 import time
-from subprocess import call
+from subprocess import call, Popen
 from readit import get_image_url, reddit_url
 from log import log
 INDEX_PAGE = "index.html"
@@ -68,7 +68,7 @@ def set_alarm():
 	if request.method == 'POST':
 		datetime = request.form['time']
 		print(datetime)
-		call(["python", "spotalarm", datetime])
+		Popen(["python", "spotalarm", datetime])
 		return redirect('/alarm')
 	return render_template('alarm.html')
 
