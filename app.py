@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 import sqlite3
 import time
+from subprocess import call
 from readit import get_image_url, reddit_url
 from log import log
 INDEX_PAGE = "index.html"
@@ -58,6 +59,7 @@ def handle_data():
 		c.execute(s)
 		conn.commit()
 		conn.close()
+		call(["flite", "-t", request.form['content']])
 		return redirect("/form")
 	return render_template('form.html')
 
@@ -68,4 +70,4 @@ def print_keys(dic):
 		print(key)
 
 if __name__ == '__main__':
-	app.run(debug=True, host='0.0.0.0')
+	app.run(debug=False, host='0.0.0.0')
