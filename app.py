@@ -63,6 +63,15 @@ def handle_data():
 		return redirect("/form")
 	return render_template('form.html')
 
+@app.route('/alarm', methods=['GET', 'POST'])
+def set_alarm():
+	if request.method == 'POST':
+		conn = sqlite3.connect('alarms.db')
+		datetime = request.form['content']
+		print(datetime)
+		return redirect('/alarm')
+	return render_template('alarm.html')
+
 def print_keys(dic):
 	print("Gon' print some keys")
 	for key in dic:
