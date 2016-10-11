@@ -66,8 +66,7 @@ def handle_data():
 @app.route('/alarm', methods=['GET', 'POST'])
 def set_alarm():
 	if request.method == 'POST':
-		conn = sqlite3.connect('alarms.db')
-		datetime = request.form['content']
+		datetime = request.form['time']
 		print(datetime)
 		return redirect('/alarm')
 	return render_template('alarm.html')
