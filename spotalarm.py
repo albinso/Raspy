@@ -9,7 +9,7 @@ def act():
     call(["ncmpcpp", "play"])
 
 def wait_start(runTime, action):
-	now = datetime.today().time()
+    now = datetime.today().time()
     startTime = time(*(map(int, runTime.split(':'))))
     while startTime < now:
     	sleep(60)
