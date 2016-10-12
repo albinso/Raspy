@@ -10,6 +10,14 @@ app = Flask(__name__)
 i = 0
 alarms = list()
 
+class Alarm:
+	def __init__(self, time):
+		self.time = time
+		self.process = Popen(["python", "spotalarm.py", time])
+
+	def stop(self):
+		self.process.kill()
+		
 @app.route("/old")
 def index_old():
 	conn = sqlite3.connect('twatter.db')
@@ -90,10 +98,4 @@ if __name__ == '__main__':
 	app.run(debug=False, host='0.0.0.0')
 
 
-class Alarm:
-	def __init__(self, time):
-		self.time = time
-		self.process = Popen(["python", "spotalarm.py", time])
 
-	def stop(self):
-		self.process.kill()
