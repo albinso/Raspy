@@ -8,6 +8,8 @@ INDEX_PAGE = "index.html"
 
 app = Flask(__name__)
 i = 0
+alarms = list()
+
 @app.route("/old")
 def index_old():
 	conn = sqlite3.connect('twatter.db')
@@ -65,12 +67,18 @@ def handle_data():
 
 @app.route('/alarm', methods=['GET', 'POST'])
 def set_alarm():
+	global alarms
 	if request.method == 'POST':
 		datetime = request.form['time']
 		print(datetime)
-		Popen(["python", "spotalarm.py", datetime])
+		alarms.append(Alarm(datetime))
 		return redirect('/alarm')
 	return render_template('alarm.html')
+
+@app.route('/alarms', methods=['GET'])
+def show_alarms():
+	global alarms
+	return render_template('show_alarms.html', alarms=alarms)
 
 def print_keys(dic):
 	print("Gon' print some keys")
@@ -80,3 +88,12 @@ def print_keys(dic):
 
 if __name__ == '__main__':
 	app.run(debug=False, host='0.0.0.0')
+
+
+class Alarm:
+	def __init__(self, time):
+		self.time = time
+		self.process = Popen(["python", "spotalarm.py", time])
+
+	def stop(self):
+		self.process.kill()
