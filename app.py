@@ -68,7 +68,7 @@ def set_alarm():
 	if request.method == 'POST':
 		datetime = request.form['time']
 		print(datetime)
-		Popen(["python", "spotalarm", datetime])
+		Popen(["python", "spotalarm.py", datetime])
 		return redirect('/alarm')
 	return render_template('alarm.html')
 
