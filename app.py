@@ -17,7 +17,9 @@ class Alarm:
 
 	def stop(self):
 		self.process.kill()
-		
+	def __str__(self):
+		return str(self.time)
+	
 @app.route("/old")
 def index_old():
 	conn = sqlite3.connect('twatter.db')
@@ -80,10 +82,10 @@ def set_alarm():
 		datetime = request.form['time']
 		print(datetime)
 		alarms.append(Alarm(datetime))
-		return redirect('/alarm')
+		return redirect('/alarms')
 	return render_template('alarm.html')
 
-@app.route('/alarms', methods=['GET'])
+@app.route('/alarms')
 def show_alarms():
 	global alarms
 	return render_template('show_alarms.html', alarms=alarms)
