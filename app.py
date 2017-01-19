@@ -110,15 +110,14 @@ def show_alarms():
 def api_alarms():
 	data = {}
 	for i, alarm in enumerate(alarms):
-		data[str(i)] = str(alarm.time)
+		data[str(alarm.key)] = str(alarm.time)
 	js = json.dumps(data)
 	resp = Response(js, status=200, mimetype='application/json')
 	return resp
 
-@app.route('/api/alarms/act')
-def api_act():
-	key = int(request.form['key'])
-	action = request.form.action['action']
+@app.route('/api/alarms/act/<key>/<action>')
+def api_act(key, action):
+	key = int(key)
 
 	if action == 'remove':
 		for i, alarm in enumerate(alarms):
