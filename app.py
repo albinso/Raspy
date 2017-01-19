@@ -15,8 +15,12 @@ class Alarm:
 		self.time = time
 		self.process = Popen(["python", "spotalarm.py", time])
 
+	def get_process(self):
+		return self.process
+
 	def stop(self):
 		self.process.kill()
+
 	def __str__(self):
 		return str(self.time)
 	
@@ -88,6 +92,10 @@ def set_alarm():
 @app.route('/alarms')
 def show_alarms():
 	global alarms
+	for alarm in alarms:
+		alarm.get_process().poll()
+		if alarm.get_process().returncode != None:
+			alarms.remove(alarm)
 	return render_template('show_alarms.html', alarms=alarms)
 
 def print_keys(dic):
