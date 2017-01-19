@@ -106,8 +106,8 @@ def api_alarms():
 	data = {}
 	for i, alarm in enumerate(alarms):
 		data[str(i)] = str(alarm.time)
-	json = json.dumps(data)
-	resp = Response(json, status=200, mimetype='application/json')
+	js = json.dumps(data)
+	resp = Response(js, status=200, mimetype='application/json')
 	return resp
 
 def print_keys(dic):
