@@ -4,9 +4,13 @@ from subprocess import call
 import sys
 
 def act():
-    call(["mpc", "volume", "100"])
+	call(["mpc", "volume", "0"])
     call(["ncmpcpp", "-h", "192.168.0.100", "prev"])
     call(["ncmpcpp", "play"])
+    
+    for i in range(100):
+    	call(["mpc", "volume", "+1"])
+    	sleep(1)
 
 def wait_start(runTime, action):
     now = datetime.today().time()
