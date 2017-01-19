@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, redirect, response
+from flask import Flask, render_template, request, redirect, Response
 import sqlite3
 import time
 from subprocess import call, Popen
 from readit import get_image_url, reddit_url
 from log import log
 import json
+import sys
 
 INDEX_PAGE = "index.html"
 
@@ -106,7 +107,7 @@ def api_alarms():
 	for i, alarm in enumerate(alarms):
 		data[str(i)] = str(alarm.time)
 	json = json.dumps(data)
-	resp = response(json, status=200, mimetype='application/json')
+	resp = Response(json, status=200, mimetype='application/json')
 	return resp
 
 def print_keys(dic):
@@ -116,7 +117,10 @@ def print_keys(dic):
 		print(key)
 
 if __name__ == '__main__':
-	app.run(debug=False, host='0.0.0.0')
+	if len(sys.argv) > 1:
+		app.run(debug=(sys.argv[1] == 'true'), host='0.0.0.0')
+	else:
+		app.run(debug=False, host='0.0.0.0')
 
 
 
