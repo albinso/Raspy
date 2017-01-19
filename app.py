@@ -11,6 +11,7 @@ INDEX_PAGE = "index.html"
 
 app = Flask(__name__)
 i = 0
+keygen = 0
 alarms = list()
 
 class Alarm:
@@ -86,10 +87,13 @@ def handle_data():
 @app.route('/alarm', methods=['GET', 'POST'])
 def set_alarm():
 	global alarms
+	global keygen
 	if request.method == 'POST':
 		datetime = request.form['time']
 		print(datetime)
-		alarms.append(Alarm(datetime))
+		
+		alarms.append(Alarm(keygen, datetime))
+		keygen += 1
 		return redirect('/alarms')
 	return render_template('alarm.html')
 
