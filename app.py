@@ -13,8 +13,9 @@ i = 0
 alarms = list()
 
 class Alarm:
-	def __init__(self, time):
+	def __init__(self, key, time):
 		self.time = time
+		self.key = key
 		self.process = Popen(["python", "spotalarm.py", time])
 
 	def get_process(self):
@@ -105,9 +106,25 @@ def api_alarms():
 	data = {}
 	for i, alarm in enumerate(alarms):
 		data[str(i)] = str(alarm.time)
-	json = json.dumps(data)
-	resp = response(json, status=200, mimetype='application/json')
+	js = json.dumps(data)
+	resp = response(js, status=200, mimetype='application/json')
 	return resp
+
+@app.route('/api/alarms/act')
+def api_act():
+	key = int(request.form['key'])
+	action = request.form.action['action']
+
+	if action == 'remove':
+		for i, alarm in enumerate(alarms):
+			if alarm.key == key:
+				alarm.stop()
+				del alarms[i]
+	data = {'key': str(key)}
+	js = json.dumps(data)
+	resp = response(js, status=200, mimetype='application/json')
+	return resp
+
 
 def print_keys(dic):
 	print("Gon' print some keys")
