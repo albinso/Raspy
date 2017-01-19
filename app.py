@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, response
 import sqlite3
 import time
 from subprocess import call, Popen
 from readit import get_image_url, reddit_url
 from log import log
+import json
+
 INDEX_PAGE = "index.html"
 
 app = Flask(__name__)
@@ -97,6 +99,15 @@ def show_alarms():
 		if alarm.get_process().returncode != None:
 			alarms.remove(alarm)
 	return render_template('show_alarms.html', alarms=alarms)
+
+@app.route('/api/alarms')
+def api_alarms():
+	data = {}
+	for i, alarm in enumerate(alarms):
+		data[str(i)] = str(alarm.time)
+	json = json.dumps(data)
+	resp = response(json, status=200, mimetype='application/json')
+	return resp
 
 def print_keys(dic):
 	print("Gon' print some keys")
