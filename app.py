@@ -137,7 +137,8 @@ def api_act(key, action):
 def api_create(time):
 	global alarms
 	global keygen
-	datetime = time
+	datetime = time[:2] + ':' + time[2:]
+	
 	print(datetime)
 	
 	alarms.append(Alarm(keygen, datetime))
