@@ -133,6 +133,20 @@ def api_act(key, action):
 	resp = Response(js, status=200, mimetype='application/json')
 	return resp
 
+@app.route('/api/alarms/create/<time>', methods=['POST'])
+def api_create(time):
+	global alarms
+	global keygen
+	datetime = time
+	print(datetime)
+	
+	alarms.append(Alarm(keygen, datetime))
+	keygen += 1
+	data = {'key': str(key), 'time': datetime}
+	js = json.dumps(data)
+	resp = Response(js, status=200, mimetype='application/json')
+	return resp
+
 
 def print_keys(dic):
 	print("Gon' print some keys")
