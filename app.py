@@ -115,7 +115,7 @@ def api_alarms():
 	resp = Response(js, status=200, mimetype='application/json')
 	return resp
 
-@app.route('/api/alarms/act/<key>/<action>')
+@app.route('/api/alarms/act/<key>/<action>', methods=['POST'])
 def api_act(key, action):
 	global alarms
 	key = int(key)
