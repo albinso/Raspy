@@ -117,6 +117,7 @@ def api_alarms():
 
 @app.route('/api/alarms/act/<key>/<action>')
 def api_act(key, action):
+	global alarms
 	key = int(key)
 
 	if action == 'remove':
@@ -124,6 +125,9 @@ def api_act(key, action):
 			if alarm.key == key:
 				alarm.stop()
 				del alarms[i]
+				i -= 1
+				if not alarms:
+					alarms = list()
 	data = {'key': str(key)}
 	js = json.dumps(data)
 	resp = Response(js, status=200, mimetype='application/json')
