@@ -7,11 +7,18 @@ from config_utils import get_configs
 
 reddit_url = 'https://www.reddit.com/r/aww/hot.json'
 old_time = int(time.time())
+
+# WOW this is a mess.
+
 def check_time():
+	"""
+	Checks if its time to refresh the page.
+	"""
 	global old_time
 	if not old_time:
 		old_time = int(time.time())
 		return True
+
 	configs = get_configs()
 	time_conf = int(configs['redditrefreshrate'])
 	
@@ -24,11 +31,10 @@ def check_time():
 	return False
 
 def get_image_url(url, regex='http(s)*://(i\.)*imgur\.com/.+\..+', ending='.jpg', cache=True):
-	current_time = (int)(time.time())
-	configs = get_configs()
+	cache = True
 	if check_time():
 		cache = False
-	cache = True
+	
 	if cache:
 		with open('cache.txt') as f:
 			data = f.read()
