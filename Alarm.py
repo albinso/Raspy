@@ -1,3 +1,5 @@
+from subprocess import call, Popen
+
 class Alarm:
 	"""
 	A single scheduled alarm. Controls the separate alarm process.

@@ -1,12 +1,11 @@
 from flask import Flask, render_template, request, redirect, Response
 import sqlite3
 import time
-from subprocess import call, Popen
 from readit import get_image_url, reddit_url
 from log import log
 import json
 import sys
-from alarm import Alarm
+from Alarm import Alarm
 
 INDEX_PAGE = "index.html"
 
