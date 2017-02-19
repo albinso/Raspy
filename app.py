@@ -6,6 +6,7 @@ from readit import get_image_url, reddit_url
 from log import log
 import json
 import sys
+from alarm import Alarm
 
 INDEX_PAGE = "index.html"
 
@@ -14,32 +15,7 @@ i = 0
 keygen = 0
 alarms = list()
 
-class Alarm:
-	"""
-	A single scheduled alarm. Controls the separate alarm process.
-	Does not persist between sessions so if you restart the server all alarms are lost.
-	"""
-	def __init__(self, key, time):
-		"""
-		:key - A unique identifier for this alarm. Needs only be unique for the current session.
-		:time - 24-hour time string on the format HH:MM
-		"""
-		self.time = time
-		self.key = key
-		self.process = Popen(["python", "spotalarm.py", time])
 
-	def get_process(self):
-		return self.process
-
-	def stop(self):
-		"""
-		Kills the process, effectively stopping the alarm from going off.
-		Will not do anything once the alarm has been triggered.
-		"""
-		self.process.kill()
-
-	def __str__(self):
-		return str(self.time)
 	
 @app.route("/old")
 def index_old():
@@ -71,20 +47,15 @@ def checkInput(s):
 @app.route('/')
 def index():
 	"""
-	Shows cat pictures.
+	Currently alarm is the main feature so we redirect there.
 	"""
-	#log(request)
-	#url = get_image_url(reddit_url, cache=False)
-	#url = 'http://1mc8511ob3uc397k3v2p939j.wpengine.netdna-cdn.com/wp-content/uploads/2014/07/best-picture-on-the-internet.jpg'
-	#return render_template('remote_image.html', url=url)
 	return redirect('/alarm')
 
 @app.route('/image/<img>')
 def image(img):
 	"""
-	Some basic image hosting.
+	Image hosting
 	"""
-	print(img)
 	return render_template('image.html', img=img)
 
 
@@ -98,23 +69,28 @@ def twatter_form():
 	on the old main page.
 	"""
 	if request.method == 'POST':
-		
-		conn = sqlite3.connect('twatter.db')
-		c = conn.cursor()
-		checkInput(request.form['content'])
-
-		# TODO: See if I can pull off some SQL injection on this
-		s = "INSERT INTO twats VALUES(\"" + request.form['content'] + "\", " + str(time.time()) + ")"
-		
-		c.execute(s)
-		conn.commit()
-		conn.close()
-
-		# Text to speech
-		call(["flite", "-t", request.form['content']])
-
-		return redirect("/form")
+		read_text_as_speech(request.form['content'])
+		return post_twat(request)	
 	return render_template('form.html')
+
+def post_twat(request):
+	checkInput(request.form['content'])
+	query = twat_to_sql_query(request)
+	execute_query(query)
+	return redirect("/form")
+
+def twat_to_sql_query(request):
+	return "INSERT INTO twats VALUES(\"" + request.form['content'] + "\", " + str(time.time()) + ")"
+
+def execute_query(query, db):
+	conn = sqlite3.connect('twatter.db')
+	c = conn.cursor()
+	c.execute(query)
+	conn.commit()
+	conn.close()
+
+def read_text_as_speech(text):
+	call(["flite", "-t", text])
 
 @app.route('/alarm', methods=['GET', 'POST'])
 def set_alarm():
@@ -203,10 +179,6 @@ def api_create(time):
 
 
 def print_keys(dic):
-	"""
-	Does what it says it does.
-	"""
-	print("Gon' print me some keys")
 	for key in dic:
 		print("Key:", key)
 
