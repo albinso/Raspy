@@ -73,10 +73,11 @@ def index():
 	"""
 	Shows cat pictures.
 	"""
-	log(request)
-	url = get_image_url(reddit_url, cache=True)
-	return render_template('remote_image.html', url=url)
-
+	#log(request)
+	#url = get_image_url(reddit_url, cache=False)
+	#url = 'http://1mc8511ob3uc397k3v2p939j.wpengine.netdna-cdn.com/wp-content/uploads/2014/07/best-picture-on-the-internet.jpg'
+	#return render_template('remote_image.html', url=url)
+	return redirect('/alarm')
 
 @app.route('/image/<img>')
 def image(img):

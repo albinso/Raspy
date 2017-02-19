@@ -34,7 +34,7 @@ def get_image_url(url, regex='http(s)*://(i\.)*imgur\.com/.+\..+', ending='.jpg'
 	cache = True
 	if check_time():
 		cache = False
-	
+	cache = True
 	if cache:
 		with open('cache.txt') as f:
 			data = f.read()
@@ -65,4 +65,4 @@ def get_image_url(url, regex='http(s)*://(i\.)*imgur\.com/.+\..+', ending='.jpg'
 			print(imageurl)
 			return get_image_url(url)
 
-print(get_image_url(reddit_url))
+
