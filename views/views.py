@@ -10,6 +10,7 @@ from models.api_gen import AlarmApiGenerator
 INDEX_PAGE = "index.html"
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
+app.url_map.strict_slashes = False
 
 alarm_handler = AlarmHandler()
 api_gen = AlarmApiGenerator(alarm_handler)
@@ -46,17 +47,17 @@ def show_alarms():
 
 @app.route('/api/alarms')
 def api_alarms():
-	resp = api_gen.get_alarms(alarm_handler)
+	resp = api_gen.get_alarms()
 	return resp
 	
 
-@app.route('/api/alarms/remove/<key>', methods=['POST'])
-def api_remove_alarm(key, action):
+@app.route('/api/alarms/remove/<key>', methods=['POST', 'GET'])
+def api_remove_alarm(key):
 	key = int(key)
 	resp = api_gen.remove_alarm_by_key(key)	
 	return resp
 
-@app.route('/api/alarms/create/<time>', methods=['POST'])
+@app.route('/api/alarms/create/<time>', methods=['POST', 'GET'])
 def api_create(time):
 	"""
 	API functionality for creating an alarm.
