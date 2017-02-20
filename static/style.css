@@ -1,10 +1,12 @@
 body {
-	background: white;
-	color: green;
+	background-color: lightgrey;
+	color: black;
 }
 
 h1 {
 	font-size: 4em;
+	background-color: lightgrey;
+	color: black;
 }
 
 img {
@@ -17,3 +19,8 @@ img {
 	margin-top: auto;
 	margin-bottom: auto;
 }
+
+input {
+	font-size: 2.5rem;
+}
+
