@@ -5,7 +5,7 @@ import json
 import sys
 from models.Alarm import Alarm
 from models.AlarmHandler import AlarmHandler
-from api_gen import ApiGenerator
+from models.api_gen import ApiGenerator
 
 INDEX_PAGE = "index.html"
 
