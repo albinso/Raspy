@@ -13,33 +13,6 @@ app = Flask(__name__, template_folder='../templates')
 
 alarm_handler = AlarmHandler()
 api_gen = ApiGenerator()
-
-@app.route("/old")
-def index_old():
-	"""
-	The first page of the site. Shows a random string
-	from the 'twatter' system.
-	"""
-	conn = sqlite3.connect('twatter.db')
-
-	c = conn.cursor()
-	s = "SELECT * FROM twats ORDER BY RANDOM() LIMIT 1"
-	c.execute(s)
-	data = c.fetchone()
-	conn.close()
-	message = data[0]
-	
-	return render_template(INDEX_PAGE, message=message)
-
-def checkInput(s):
-	"""
-	Checks the validity of s. Currently only
-	if the string is non-empty.
-	"""
-	print("bout to raise")
-	if len(s) == 0:
-		print("raised")
-		raise Exception("Nonono")
 	
 @app.route('/')
 def index():
@@ -55,44 +28,9 @@ def image(img):
 	"""
 	return render_template('image.html', img=img)
 
-
-
-@app.route('/form', methods=['GET', 'POST'])
-def twatter_form():
-	"""
-	Twatter. Takes a string from the user and
-	plays it on my speaker using text to speech.
-	Also permanently stores the string for usage
-	on the old main page.
-	"""
-	if request.method == 'POST':
-		read_text_as_speech(request.form['content'])
-		return post_twat(request)	
-	return render_template('form.html')
-
-def post_twat(request):
-	checkInput(request.form['content'])
-	query = twat_to_sql_query(request)
-	execute_query(query)
-	return redirect("/form")
-
-def twat_to_sql_query(request):
-	return "INSERT INTO twats VALUES(\"" + request.form['content'] + "\", " + str(time.time()) + ")"
-
-def execute_query(query, db):
-	conn = sqlite3.connect('twatter.db')
-	c = conn.cursor()
-	c.execute(query)
-	conn.commit()
-	conn.close()
-
-def read_text_as_speech(text):
-	call(["flite", "-t", text])
-
 @app.route('/alarm', methods=['GET', 'POST'])
 def set_alarm():
 	"""
-	Creates an alarm for the time entered by the user.
 	Redirects to the alarm listings page once alarm is created.
 	"""
 	if request.method == 'POST':
@@ -103,9 +41,6 @@ def set_alarm():
 
 @app.route('/alarms')
 def show_alarms():
-	"""
-	Lists all currently active alarms.
-	"""
 	active_alarms = alarm_handler.get_active_alarms()
 	return render_template('show_alarms.html', alarms=active_alarms)
 
@@ -158,12 +93,6 @@ def api_create(time):
 	js = json.dumps(data)
 	resp = Response(js, status=200, mimetype='application/json')
 	return resp
-
-
-def print_keys(dic):
-	for key in dic:
-		print("Key:", key)
-
 
 
 def main():
