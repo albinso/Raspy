@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, Response
 import sqlite3
 import time
-from log import log
 import json
 import sys
 from models.Alarm import Alarm
