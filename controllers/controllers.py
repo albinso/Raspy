@@ -1,21 +1,20 @@
 from flask import Flask, render_template, request, redirect, Response
 import sqlite3
 import time
-from readit import get_image_url, reddit_url
 from log import log
 import json
 import sys
-from Alarm import Alarm
+from models.Alarm import Alarm
+from models.AlarmHandler import AlarmHandler
+from api_gen import ApiGenerator
 
 INDEX_PAGE = "index.html"
 
-app = Flask(__name__)
-i = 0
-keygen = 0
-alarms = list()
+app = Flask(__name__, template_folder='../templates')
 
+alarm_handler = AlarmHandler()
+api_gen = ApiGenerator()
 
-	
 @app.route("/old")
 def index_old():
 	"""
@@ -97,14 +96,9 @@ def set_alarm():
 	Creates an alarm for the time entered by the user.
 	Redirects to the alarm listings page once alarm is created.
 	"""
-	global alarms
-	global keygen
 	if request.method == 'POST':
 		datetime = request.form['time']
-		print(datetime)
-		
-		alarms.append(Alarm(keygen, datetime))
-		keygen += 1
+		alarm_handler.create_alarm(datetime)
 		return redirect('/alarms')
 	return render_template('alarm.html')
 
@@ -113,24 +107,14 @@ def show_alarms():
 	"""
 	Lists all currently active alarms.
 	"""
-	global alarms
-	for alarm in alarms:
-		alarm.get_process().poll()
-		if alarm.get_process().returncode != None:
-			alarms.remove(alarm)
-	return render_template('show_alarms.html', alarms=alarms)
+	active_alarms = alarm_handler.get_active_alarms()
+	return render_template('show_alarms.html', alarms=active_alarms)
 
 @app.route('/api/alarms')
 def api_alarms():
-	"""
-	Returns a json object with alarm time of all active alarms.
-	"""
-	data = {}
-	for i, alarm in enumerate(alarms):
-		data[str(alarm.key)] = str(alarm.time)
-	js = json.dumps(data)
-	resp = Response(js, status=200, mimetype='application/json')
-	return resp
+	js = api_gen.get_alarms(alarm_handler)
+	return Response(js, status=200, mimetype='application/json')
+	
 
 @app.route('/api/alarms/remove/<key>', methods=['POST'])
 def api_remove(key, action):
@@ -181,12 +165,17 @@ def print_keys(dic):
 	for key in dic:
 		print("Key:", key)
 
-if __name__ == '__main__':
+
+
+def main():
 	if len(sys.argv) > 1:
 		# Check if argument 1 enables debug mode.
 		app.run(debug=(sys.argv[1] == 'debug'), host='0.0.0.0')
 	else:
 		app.run(debug=False, host='0.0.0.0')
+
+if __name__ == '__main__':
+	main()
 
 
 
