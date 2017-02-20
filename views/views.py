@@ -42,7 +42,6 @@ def set_alarm():
 @app.route('/alarms')
 def show_alarms():
 	active_alarms = alarm_handler.get_active_alarms()
-	print(active_alarms)
 	return render_template('show_alarms.html', alarms=active_alarms)
 
 @app.route('/api/alarms')
