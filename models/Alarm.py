@@ -24,5 +24,13 @@ class Alarm:
 		"""
 		self.process.kill()
 
+	def is_active(self):
+		proc = self.get_process()
+		proc.poll()
+		return proc.returncode == None
+
+	def matches(self, key):
+		return self.key == key
+
 	def __str__(self):
 		return str(self.time)

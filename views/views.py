@@ -5,14 +5,14 @@ import json
 import sys
 from models.Alarm import Alarm
 from models.AlarmHandler import AlarmHandler
-from models.api_gen import ApiGenerator
+from models.api_gen import AlarmApiGenerator
 
 INDEX_PAGE = "index.html"
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
 alarm_handler = AlarmHandler()
-api_gen = ApiGenerator()
+api_gen = AlarmApiGenerator(alarm_handler)
 	
 @app.route('/')
 def index():
@@ -42,36 +42,19 @@ def set_alarm():
 @app.route('/alarms')
 def show_alarms():
 	active_alarms = alarm_handler.get_active_alarms()
+	print(active_alarms)
 	return render_template('show_alarms.html', alarms=active_alarms)
 
 @app.route('/api/alarms')
 def api_alarms():
-	js = api_gen.get_alarms(alarm_handler)
-	return Response(js, status=200, mimetype='application/json')
+	resp = api_gen.get_alarms(alarm_handler)
+	return resp
 	
 
 @app.route('/api/alarms/remove/<key>', methods=['POST'])
-def api_remove(key, action):
-	"""
-	API functionality to remove the alarm given by key.
-	If no alarm matches key nothing happens but the user is not notified.
-	Returns a json object just containing the key.
-	"""
-	global alarms
+def api_remove_alarm(key, action):
 	key = int(key)
-
-	for i, alarm in enumerate(alarms):
-		if alarm.key == key:
-			alarm.stop()
-			del alarms[i]
-			i -= 1
-			if not alarms:
-				alarms = list()
-	data = {'key': str(key)}
-	js = json.dumps(data)
-
-	# TODO: Better response. Shouldn't be 200 every time.
-	resp = Response(js, status=200, mimetype='application/json')
+	resp = api_gen.remove_alarm_by_key(key)	
 	return resp
 
 @app.route('/api/alarms/create/<time>', methods=['POST'])
@@ -81,17 +64,8 @@ def api_create(time):
 	Returns a json object with the key and time for
 	the new alarm.
 	"""
-	global alarms
-	global keygen
-	datetime = time[:2] + ':' + time[2:]
-	
-	print(datetime)
-	
-	alarms.append(Alarm(keygen, datetime))
-	keygen += 1
-	data = {'key': str(key), 'time': datetime}
-	js = json.dumps(data)
-	resp = Response(js, status=200, mimetype='application/json')
+	alarm_time = time[:2] + ':' + time[2:]
+	resp = api_gen.create_alarm(alarm_time)
 	return resp
 
 
