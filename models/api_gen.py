@@ -13,18 +13,20 @@ class AlarmApiGenerator:
 		return Response(js, status=200, mimetype='application/json')
 
 	def remove_alarm_by_key(self, key):
-		n = self.alarm_handler.kill_by_key(key)
-		data = {'key': str(key), 'n_killed': str(n)}
-		js = json.dumps(data)
-		resp = Response(js, status=200, mimetype='application/json')
-		if n == 0:
-			resp = Response(js, status=404, mimetype='application/json')
-		return resp
+		found = self.alarm_handler.kill_by_key(key)
+		self.alarm_handler.remove_inactive_alarms()
+		data = {'key': str(key), 'found': str(found)}
+		code = 200
+		if not found:
+			code = 204
+		return self.dict_to_json_response(data, status=code)
 
 	def create_alarm(self, time):
 		alarm = self.alarm_handler.create_alarm(time)
 		data = {'key': str(alarm.key)}
+		return self.dict_to_json_response(data, status=200)
+
+	def dict_to_json_response(self, data, status):
 		js = json.dumps(data)
-		resp = Response(js, status=200, mimetype='application/json')
-		return resp
+		return Response(js, status=status, mimetype='application/json')
 

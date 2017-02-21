@@ -24,7 +24,7 @@ class AlarmHandler:
 
 	def kill_by_key(self, key):
 		n = 0
-		for i, alarm in enumerate(self.alarms):
+		for alarm in self.alarms:
 			if alarm.matches(key):
 				n += 1
 				alarm.stop()

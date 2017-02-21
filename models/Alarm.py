@@ -22,7 +22,8 @@ class Alarm:
 		Kills the process, effectively stopping the alarm from going off.
 		Will not do anything once the alarm has been triggered.
 		"""
-		self.process.kill()
+		if self.is_active():
+			self.process.kill()
 
 	def is_active(self):
 		proc = self.get_process()
