@@ -1,3 +1,3 @@
-from views import views
+from raspy.views import views
 
 views.main()

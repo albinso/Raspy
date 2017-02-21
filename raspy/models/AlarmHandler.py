@@ -1,4 +1,4 @@
-from models.Alarm import Alarm
+from raspy.models.Alarm import Alarm
 
 class AlarmHandler:
 	def __init__(self):

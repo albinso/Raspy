@@ -3,9 +3,9 @@ import sqlite3
 import time
 import json
 import sys
-from models.Alarm import Alarm
-from models.AlarmHandler import AlarmHandler
-from models.api_gen import AlarmApiGenerator
+from raspy.models.Alarm import Alarm
+from raspy.models.AlarmHandler import AlarmHandler
+from raspy.models.api_gen import AlarmApiGenerator
 from raspy import app, api_gen, alarm_handler
 
 INDEX_PAGE = "index.html"
