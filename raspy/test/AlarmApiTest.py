@@ -1,9 +1,11 @@
 import unittest
+from raspy import app
 
 class AlarmApiTest(unittest.TestCase):
 
 	def setUp(self):
-		pass
+		app.config['Testing'] = True
+		self.app = app.test_client()
 
 	def test_app(self):
 		self.assertFalse(True)
