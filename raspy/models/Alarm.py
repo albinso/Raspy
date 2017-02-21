@@ -12,7 +12,7 @@ class Alarm:
 		"""
 		self.time = time
 		self.key = key
-		self.process = Popen(["python", "spotalarm.py", time])
+		self.process = Popen(["python", "raspy/spotalarm.py", time])
 
 	def get_process(self):
 		return self.process
