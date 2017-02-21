@@ -6,7 +6,6 @@ class AlarmHandler:
 		self.alarms = list()
 
 	def create_alarm(self, time):
-		print(self.__dict__)
 		alarm = Alarm(self.keygen, time)
 		self.keygen += 1
 		self.add_alarm(alarm)

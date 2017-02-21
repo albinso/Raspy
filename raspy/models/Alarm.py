@@ -1,18 +1,23 @@
 from subprocess import call, Popen
+from datetime import time
 
 class Alarm:
 	"""
 	A single scheduled alarm. Controls the separate alarm process.
 	Does not persist between sessions so if you restart the server all alarms are lost.
 	"""
-	def __init__(self, key, time):
+	def __init__(self, key, alarm_time):
 		"""
 		:key - A unique identifier for this alarm. Needs only be unique for the current session.
 		:time - 24-hour time string on the format HH:MM
 		"""
-		self.time = time
+		self.alarm_time = alarm_time
+		self.verify_time(alarm_time)
 		self.key = key
-		self.process = Popen(["python", "raspy/spotalarm.py", time])
+		self.process = Popen(["python", "raspy/spotalarm.py", self.alarm_time])
+
+	def verify_time(self, alarm_time):
+		time(*(map(int, alarm_time.split(':'))))
 
 	def get_process(self):
 		return self.process

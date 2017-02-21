@@ -32,5 +32,6 @@ def wait_start(runTime, action):
 		# While startTime is later today.
 		sleep(60)
 	return action()
+	
 if __name__ == '__main__':
 	wait_start(sys.argv[1], act)
