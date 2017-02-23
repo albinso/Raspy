@@ -33,12 +33,29 @@ class AlarmHandlerTest(unittest.TestCase):
 	def test_kill_by_key(self):
 		alarm_time = "13:00"
 		n_alarms = 15
-		delay = 1E-2 # Ensure process is shut down within this time
 		self._make_n_alarms(n_alarms, alarm_time)
 		alarms = self.alarm_handler.alarms
 		key = 7
 		n = self.alarm_handler.kill_by_key(key)
 		self.assertEquals(n, 1)
-		time.sleep(delay)
 		self.assertFalse(alarms[key].is_active())
+
+	def test_remove_inactive_alarms_len_single_case(self):
+		alarm_time = "15:00"
+		self.alarm_handler.create_alarm(alarm_time)
+		alarms = self.alarm_handler.alarms
+		key = 0
+		self.alarm_handler.kill_by_key(0)
+		self.alarm_handler.remove_inactive_alarms()
+		self.assertEquals(0, len(alarms))
+
+	def test_remove_inactive_alarms_len(self):
+		alarm_time = "15:00"
+		n_alarms = 15
+		self._make_n_alarms(n_alarms, alarm_time)
+		alarms = self.alarm_handler.alarms
+		key = 7
+		self.alarm_handler.kill_by_key(key)
+		self.alarm_handler.remove_inactive_alarms()
+		self.assertEquals(n_alarms-1, len(alarms))
 

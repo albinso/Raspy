@@ -15,6 +15,7 @@ class Alarm:
 		self.verify_time(alarm_time)
 		self.key = key
 		self.process = Popen(["python", "raspy/spotalarm.py", self.alarm_time])
+		self.is_killed = False
 
 	def verify_time(self, alarm_time):
 		time(*(map(int, alarm_time.split(':'))))
@@ -29,11 +30,12 @@ class Alarm:
 		"""
 		if self.is_active():
 			self.process.kill()
+			self.is_killed = True
 
 	def is_active(self):
 		proc = self.get_process()
 		proc.poll()
-		return proc.returncode == None
+		return proc.returncode == None and not self.is_killed
 
 	def matches(self, key):
 		return self.key == key
