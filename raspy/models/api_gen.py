@@ -5,7 +5,7 @@ class AlarmApiGenerator:
 	def __init__(self, alarm_handler):
 		self.alarm_handler = alarm_handler
 
-	def get_alarms(self):
+	def get_alarms_response(self):
 		data = {}
 		for alarm in self.alarm_handler.get_active_alarms():
 			data[str(alarm.key)] = str(alarm.time)

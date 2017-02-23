@@ -42,7 +42,7 @@ def show_alarms():
 
 @app.route('/api/alarms')
 def api_alarms():
-	resp = api_gen.get_alarms()
+	resp = api_gen.get_alarms_response()
 	return resp
 	
 

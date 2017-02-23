@@ -8,10 +8,10 @@ class AlarmHandler:
 	def create_alarm(self, time):
 		alarm = Alarm(self.keygen, time)
 		self.keygen += 1
-		self.add_alarm(alarm)
+		self._add_alarm(alarm)
 		return alarm
 
-	def add_alarm(self, alarm):
+	def _add_alarm(self, alarm):
 		self.alarms.append(alarm)
 
 	def get_active_alarms(self):

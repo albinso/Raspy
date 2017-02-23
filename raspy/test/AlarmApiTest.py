@@ -8,13 +8,13 @@ class AlarmApiTest(unittest.TestCase):
 		self.alarm_handler = AlarmHandler()
 		self.api = AlarmApiGenerator(self.alarm_handler)
 
-	def _make_alarm_from_time_and_get_alarms(self, time):
+	def _make_alarm_from_time_and_get_alarms_response(self, time):
 		self.api.create_alarm(time)
 		return self.alarm_handler.alarms
 
 	def test_create_alarm(self):
 		time = "05:55"
-		alarms = self._make_alarm_from_time_and_get_alarms(time)
+		alarms = self._make_alarm_from_time_and_get_alarms_response(time)
 	
 		self.assertEquals(len(alarms), 1)
 		self.assertEquals(alarms[0].alarm_time, time)
