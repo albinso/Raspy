@@ -38,5 +38,11 @@ class Alarm:
 	def matches(self, key):
 		return self.key == key
 
+	def __eq__(self, other):
+		return self.alarm_time == other.alarm_time and self.key == other.key
+
+	def __ne__(self, other):
+		return not self == other
+
 	def __str__(self):
 		return str(self.time)
