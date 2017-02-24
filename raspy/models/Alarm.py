@@ -47,4 +47,4 @@ class Alarm:
 		return not self == other
 
 	def __str__(self):
-		return str(self.time)
+		return str(self.alarm_time)
