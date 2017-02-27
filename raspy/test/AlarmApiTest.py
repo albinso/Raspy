@@ -39,7 +39,7 @@ class AlarmApiTest(unittest.TestCase):
 
 	def test_remove_no_alarms(self):
 		resp = self.api.remove_alarm_by_key(0)
-		self.assertEquals(resp.status_code, 204)
+		self.assertEquals(resp.status_code, 404)
 
 	def test_remove_alarm(self):
 		self.api.create_alarm("05:55")

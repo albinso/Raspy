@@ -18,7 +18,7 @@ class AlarmApiGenerator:
 		data = {'key': str(key), 'found': str(found)}
 		code = 200
 		if not found:
-			code = 204
+			code = 404
 		return self.dict_to_json_response(data, status=code)
 
 	def create_alarm(self, time):
