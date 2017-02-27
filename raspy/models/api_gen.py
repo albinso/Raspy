@@ -8,7 +8,7 @@ class AlarmApiGenerator:
 	def get_alarms_response(self):
 		data = {}
 		for alarm in self.alarm_handler.get_active_alarms():
-			data[str(alarm.key)] = str(alarm.time)
+			data[str(alarm.key)] = str(alarm.alarm_time)
 		js = json.dumps(data)
 		return Response(js, status=200, mimetype='application/json')
 

@@ -1,6 +1,8 @@
 import unittest
 from raspy.models.AlarmHandler import AlarmHandler
 from raspy.models.api_gen import AlarmApiGenerator
+import json
+import ast
 
 class AlarmApiTest(unittest.TestCase):
 
@@ -22,6 +24,18 @@ class AlarmApiTest(unittest.TestCase):
 	def test_create_alarm_with_invalid_time(self):
 		time = "25:69"
 		self.assertRaises(ValueError, self.api.create_alarm, time)
+
+	def test_get_alarm(self):
+		time1 = "02:00"
+		time2 = "03:35"
+		self.api.create_alarm(time1)
+		self.api.create_alarm(time2)
+		resp = self.api.get_alarms_response()
+		data = resp.get_data()
+		data = ast.literal_eval(data)
+		self.assertEquals(resp.status_code, 200)
+		self.assertEquals(data['0'], time1)
+		self.assertEquals(data['1'], time2)
 
 	def test_remove_no_alarms(self):
 		resp = self.api.remove_alarm_by_key(0)
