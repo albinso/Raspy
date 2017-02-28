@@ -2,8 +2,9 @@ import json
 from flask import Response
 
 class AlarmApiGenerator:
-	def __init__(self, alarm_handler):
+	def __init__(self, alarm_handler, mpd_controller):
 		self.alarm_handler = alarm_handler
+		self.mpd_controller = mpd_controller
 
 	def get_alarms_response(self):
 		data = {}
@@ -24,6 +25,11 @@ class AlarmApiGenerator:
 	def create_alarm(self, time):
 		alarm = self.alarm_handler.create_alarm(time)
 		data = {'key': str(alarm.key)}
+		return self.dict_to_json_response(data, status=200)
+
+	def set_volume(self, volume):
+		self.mpd_controller.set_volume(int(volume))
+		data = {}
 		return self.dict_to_json_response(data, status=200)
 
 	def dict_to_json_response(self, data, status):

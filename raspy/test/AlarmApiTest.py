@@ -1,6 +1,7 @@
 import unittest
 from raspy.models.AlarmHandler import AlarmHandler
 from raspy.models.api_gen import AlarmApiGenerator
+from raspy.models.MpdController import MpdController
 import json
 import ast
 
@@ -8,16 +9,21 @@ class AlarmApiTest(unittest.TestCase):
 
 	def setUp(self):
 		self.alarm_handler = AlarmHandler()
-		self.api = AlarmApiGenerator(self.alarm_handler)
+		self.mpd_controller = MpdController()
+		self.api = AlarmApiGenerator(self.alarm_handler, self.mpd_controller)
 
 	def _make_alarm_from_time_and_get_alarms_response(self, time):
 		self.api.create_alarm(time)
 		return self.alarm_handler.alarms
 
+	def _get_json_dict_from_response(self, resp):
+		data = resp.get_data()
+		data = ast.literal_eval(data)
+		return data
+
 	def test_create_alarm(self):
 		time = "05:55"
 		alarms = self._make_alarm_from_time_and_get_alarms_response(time)
-	
 		self.assertEquals(len(alarms), 1)
 		self.assertEquals(alarms[0].alarm_time, time)
 
@@ -31,8 +37,7 @@ class AlarmApiTest(unittest.TestCase):
 		self.api.create_alarm(time1)
 		self.api.create_alarm(time2)
 		resp = self.api.get_alarms_response()
-		data = resp.get_data()
-		data = ast.literal_eval(data)
+		data = self._get_json_dict_from_response(resp)
 		self.assertEquals(resp.status_code, 200)
 		self.assertEquals(data['0'], time1)
 		self.assertEquals(data['1'], time2)

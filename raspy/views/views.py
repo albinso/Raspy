@@ -63,6 +63,11 @@ def api_create(time):
 	resp = api_gen.create_alarm(alarm_time)
 	return resp
 
+@app.route('/api/volume/set/<vol>')
+def api_set_volume(vol):
+	resp = api_gen.set_volume(vol)
+	return resp
+
 
 def main():
 	if len(sys.argv) > 1:
