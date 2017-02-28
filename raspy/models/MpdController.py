@@ -6,6 +6,7 @@ class MpdController:
 	def __init__(self):
 		FNULL = open(os.devnull, 'w')
 		self.process = Popen(["mopidy"], stdout=FNULL, stderr=STDOUT)
+		call(['mpc', '-p', '6680', 'load', 'Cheese it (by heerkip)'])
 		self.vol = 100
 
 	def set_volume(self, vol):
