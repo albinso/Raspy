@@ -1,5 +1,6 @@
 import unittest
 from raspy.models.MpdController import MpdController
+import pytest
 
 class MpdControllerTest(unittest.TestCase):
 
@@ -12,7 +13,7 @@ class MpdControllerTest(unittest.TestCase):
 		vol = 50
 		code = self.controller.set_volume(vol)
 		actual_vol = self.controller.get_volume()
-		self.assertEquals(code, 0)
-		self.assertEquals(vol, actual_vol)
+		assert code == 0
+		assert vol == actual_vol
 
 		
