@@ -32,6 +32,16 @@ class AlarmApiGenerator:
 		data = {}
 		return self.dict_to_json_response(data, status=200)
 
+	def play(self):
+		self.mpd_controller.play()
+		data = {}
+		return self.dict_to_json_response(data, status=200)
+
+	def pause(self):
+		self.mpd_controller.pause()
+		data = {}
+		return self.dict_to_json_response(data, status=200)
+
 	def dict_to_json_response(self, data, status):
 		js = json.dumps(data)
 		return Response(js, status=status, mimetype='application/json')

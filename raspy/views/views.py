@@ -68,6 +68,16 @@ def api_set_volume(vol):
 	resp = api_gen.set_volume(vol)
 	return resp
 
+@app.route('/api/play')
+def api_play():
+	resp = api_gen.play()
+	return resp
+
+@app.rout('/api/pause')
+def api_pause():
+	resp = api_gen.pause()
+	return resp
+
 
 def main():
 	if len(sys.argv) > 1:

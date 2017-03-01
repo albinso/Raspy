@@ -32,6 +32,14 @@ class MpdController:
 		command = self.make_mpc_command(['load', name])
 		return call(command)
 
+	def play(self):
+		command = self.make_mpc_command(['play'])
+		return call(command)
+
+	def pause(self):
+		command = self.make_mpc_command(['pause'])
+		return call(command)
+
 	def make_mpc_command(self, *args):
 		return ['mpc', '-p', '6680'] + args[0]
 
