@@ -9,12 +9,12 @@ def act():
 	Sends calls to mpc and ncmpcpp to
 	control the mopidy server.
 	"""
-	call(["mpc", "volume", "0"])
-	call(["ncmpcpp", "-h", "192.168.0.100", "prev"])
+	call(["mpc", "-p", "6680", "volume", "0"])
+	call(["ncmpcpp", "-h", "192.168.0.100", "-p", "6680", "prev"])
 	call(["ncmpcpp", "play"])
 	
 	for i in range(100):
-		call(["mpc", "volume", "+1"])
+		call(["mpc", "-p", "6680", "volume", "+1"])
 		sleep(1)
 
 def wait_start(runTime, action):
