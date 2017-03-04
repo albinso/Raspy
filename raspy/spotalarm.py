@@ -11,7 +11,7 @@ def act():
 	"""
 	call(["mpc", "-p", "6680", "volume", "0"])
 	call(["ncmpcpp", "-h", "192.168.0.100", "-p", "6680", "prev"])
-	call(["ncmpcpp", "play"])
+	call(["ncmpcpp", "-p", "6680", "play"])
 	
 	for i in range(100):
 		call(["mpc", "-p", "6680", "volume", "+1"])
