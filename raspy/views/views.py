@@ -7,6 +7,7 @@ from raspy.models.Alarm import Alarm
 from raspy.models.AlarmHandler import AlarmHandler
 from raspy.models.api_gen import AlarmApiGenerator
 from raspy import app, api_gen, alarm_handler
+from subprocess import call
 
 INDEX_PAGE = "index.html"
 	
@@ -73,10 +74,27 @@ def api_play():
 	resp = api_gen.play()
 	return resp
 
-@app.rout('/api/pause')
+@app.route('/api/pause')
 def api_pause():
 	resp = api_gen.pause()
 	return resp
+
+@app.route('/light/on')
+def light_on():
+	data = {}
+	js = json.dumps(data)
+	code = '1010111011101010101010101'
+	call(['python', 'raspy/RFTransmitter.py', code])
+	return Response(js, status=200, mimetype='application/json')
+
+@app.route('/light/off')
+def light_off():
+	data = {}
+	js = json.dumps(data)
+	code = '1010111011101010101010111'
+	call(['python', 'raspy/RFTransmitter.py', code])
+	return Response(js, status=200, mimetype='application/json')
+
 
 
 def main():
