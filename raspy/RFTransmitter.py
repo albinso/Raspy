@@ -21,8 +21,9 @@ def transmit_code(code):
     '''Transmit a chosen code string using the GPIO transmitter'''
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(TRANSMIT_PIN, GPIO.OUT)
+    print('Transmitting ' + str(code))
     for t in range(NUM_ATTEMPTS):
-        for i in code:
+        for i in str(code):
             if i == '1':
                 GPIO.output(TRANSMIT_PIN, 1)
                 time.sleep(short_delay)
