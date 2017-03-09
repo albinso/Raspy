@@ -40,6 +40,10 @@ class MpdController:
 		command = self.make_mpc_command(['pause'])
 		return call(command)
 
+	def next(self):
+		command = self.make_mpc_command(['next'])
+		return call(command)
+
 	def make_mpc_command(self, *args):
 		return ['mpc', '-p', '6680'] + args[0]
 

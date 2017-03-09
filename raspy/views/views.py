@@ -95,6 +95,11 @@ def light_off():
 	call(['python', 'raspy/RFTransmitter.py', code])
 	return Response(js, status=200, mimetype='application/json')
 
+@app.route('/api/next')
+def next_song():
+	resp = api_gen.next_song()
+	return resp
+
 
 
 def main():
