@@ -15,7 +15,7 @@ long_delay = 0.00090
 extended_delay = 0.0096
 
 NUM_ATTEMPTS = 10
-TRANSMIT_PIN = 23
+TRANSMIT_PIN = 18
 
 def transmit_code(code):
     '''Transmit a chosen code string using the GPIO transmitter'''
