@@ -33,11 +33,14 @@ class MpdController:
 		return call(command)
 
 	def play(self):
-		self.pause()
+		if self.playing:
+			return 0
+		self.playing = True
 		command = self.make_mpc_command(['play'])
 		return call(command)
 
 	def pause(self):
+		self.playing = False
 		command = self.make_mpc_command(['pause'])
 		return call(command)
 
