@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, Response
+from flask import Flask, render_template, request, redirect, Response, send_from_directory
 import sqlite3
 import time
 import json
@@ -98,6 +98,9 @@ def next_song():
 	resp = api_gen.next_song()
 	return resp
 
+@app.route('/robots.txt')
+def robots():
+	return send_from_directory(app.static_folder, 'robots.txt')
 
 
 def main():
