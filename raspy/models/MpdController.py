@@ -33,6 +33,7 @@ class MpdController:
 		return call(command)
 
 	def play(self):
+		self.pause()
 		command = self.make_mpc_command(['play'])
 		return call(command)
 

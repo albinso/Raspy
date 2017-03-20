@@ -48,7 +48,6 @@ class Alarm:
 		"""
 		self.stop()
 		mpd_controller.set_volume(0)
-		mpd_controller.prev()
 		mpd_controller.play()
 		light_controller.light_on()
 		
