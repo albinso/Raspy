@@ -8,6 +8,7 @@ class MpdController:
 		self.vol = default_volume
 		self.process = self.init_mopidy()
 		self.wait_for_mopidy_startup()
+		self.playing = False
 		self.load_playlist('Life is good (by spotify__sverige)')
 		
 
@@ -34,6 +35,7 @@ class MpdController:
 
 	def play(self):
 		if self.playing:
+			print('Already playing so doing nothing')
 			return 0
 		self.playing = True
 		command = self.make_mpc_command(['play'])
