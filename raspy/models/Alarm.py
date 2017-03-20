@@ -46,6 +46,7 @@ class Alarm:
 		Sends calls to mpc and ncmpcpp to
 		control the mopidy server.
 		"""
+		self.stop()
 		mpd_controller.set_volume(0)
 		mpd_controller.prev()
 		mpd_controller.play()
@@ -62,14 +63,14 @@ class Alarm:
 		now = datetime.today().time()
 		startTime = time(*(map(int, self.alarm_time.split(':'))))
 		while startTime < now:
-			if self.is_killed:
+			if not self.is_active():
 				return
 			# If startTime has already passed today we loop through this until midnight.
 			sleep(1)
 			now = datetime.today().time()
 
 		while startTime > datetime.today().time():
-			if self.is_killed:
+			if not self.is_active():
 				return
 			# While startTime is later today.
 			sleep(1)
