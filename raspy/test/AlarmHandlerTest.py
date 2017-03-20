@@ -1,13 +1,16 @@
 import unittest
 from raspy.models.AlarmHandler import AlarmHandler
 from raspy.models.Alarm import Alarm
+from raspy.models.MpdController import MpdController
+from raspy.models.LightController import LightController
 import time
 import pytest
 
 class AlarmHandlerTest(unittest.TestCase):
 
 	def setUp(self):
-		self.alarm_handler = AlarmHandler()
+		self.mpd, self.light = MpdController(default_volume=15), LightController()
+		self.alarm_handler = AlarmHandler(self.mpd, self.light)
 		self.standard_alarm_number = 5
 		self.success_test_key = 3
 		self.alarms = self.alarm_handler.alarms
@@ -18,7 +21,7 @@ class AlarmHandlerTest(unittest.TestCase):
 
 	def test_create_first_alarm(self):
 		time = "05:55"
-		manual_alarm = Alarm(0, time)
+		manual_alarm = Alarm(0, time, self.mpd, self.light)
 		self.alarm_handler.create_alarm(time)
 		factory_alarm = self.alarm_handler.alarms[0]
 		assert factory_alarm == manual_alarm

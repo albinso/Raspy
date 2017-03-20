@@ -1,12 +1,14 @@
 from raspy.models.Alarm import Alarm
 
 class AlarmHandler:
-	def __init__(self):
+	def __init__(self, mpd_controller, light_controller):
 		self.keygen = 0
 		self.alarms = list()
+		self.mpd_controller = mpd_controller
+		self.light_controller = light_controller
 
 	def create_alarm(self, time):
-		alarm = Alarm(self.keygen, time)
+		alarm = Alarm(self.keygen, time, self.mpd_controller, self.light_controller)
 		self.keygen += 1
 		self._add_alarm(alarm)
 		return alarm

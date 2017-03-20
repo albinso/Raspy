@@ -10,9 +10,10 @@ START_VOLUME = 15
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.url_map.strict_slashes = False
 
-alarm_handler = AlarmHandler()
+
 mpd_controller = MpdController(default_volume=START_VOLUME)
 mpd_controller.set_volume(START_VOLUME)
-api_gen = AlarmApiGenerator(alarm_handler, mpd_controller)
 light_controller = LightController()
+alarm_handler = AlarmHandler(mpd_controller, light_controller)
+api_gen = AlarmApiGenerator(alarm_handler, mpd_controller)
 

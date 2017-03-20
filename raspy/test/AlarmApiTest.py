@@ -2,6 +2,7 @@ import unittest
 from raspy.models.AlarmHandler import AlarmHandler
 from raspy.models.api_gen import AlarmApiGenerator
 from raspy.models.MpdController import MpdController
+from raspy.models.LightController import LightController
 import json
 import ast
 import pytest
@@ -9,8 +10,9 @@ import pytest
 class AlarmApiTest(unittest.TestCase):
 
 	def setUp(self):
-		self.alarm_handler = AlarmHandler()
 		self.mpd_controller = MpdController()
+		self.light_controller = LightController()
+		self.alarm_handler = AlarmHandler(self.mpd_controller, self.light_controller)
 		self.api = AlarmApiGenerator(self.alarm_handler, self.mpd_controller)
 
 	def _make_alarm_from_time_and_get_alarms_response(self, time):
