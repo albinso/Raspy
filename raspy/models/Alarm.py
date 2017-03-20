@@ -47,12 +47,12 @@ class Alarm:
 		control the mopidy server.
 		"""
 		self.stop()
-		mpd_controller.set_volume(0)
-		mpd_controller.play()
-		light_controller.light_on()
+		self.mpd_controller.set_volume(0)
+		self.mpd_controller.play()
+		self.light_controller.light_on()
 		
 		for i in range(50):
-			mpd_controller.set_volume(2*i)
+			self.mpd_controller.set_volume(2*i)
 			sleep(1)
 
 	def wait_start(self):
