@@ -8,7 +8,7 @@ class MpdController:
 		self.vol = default_volume
 		self.process = self.init_mopidy()
 		self.wait_for_mopidy_startup()
-		self.load_playlist('Cheese it (by heerkip)')
+		self.load_playlist('Life is good (by spotify__sverige)')
 		
 
 	def init_mopidy(self):
