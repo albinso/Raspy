@@ -1,6 +1,7 @@
 from subprocess import call, Popen, STDOUT, check_output
 import os
 import time
+import random
 
 class MpdController:
 
@@ -9,7 +10,8 @@ class MpdController:
 		self.process = self.init_mopidy()
 		self.wait_for_mopidy_startup()
 		self.playing = False
-		self.load_playlist('Life is good (by spotify__sverige)')
+		playlist = random.choice(self.get_playlists())
+		self.load_playlist(playlist)
 		
 
 	def init_mopidy(self):
