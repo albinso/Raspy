@@ -6,7 +6,7 @@ import sys
 from raspy.models.Alarm import Alarm
 from raspy.models.AlarmHandler import AlarmHandler
 from raspy.models.api_gen import AlarmApiGenerator
-from raspy import app, api_gen, alarm_handler, light_controller
+from raspy import app, api_gen, alarm_handler, light_controller, mpd_controller
 from subprocess import call
 
 INDEX_PAGE = "index.html"
@@ -106,6 +106,11 @@ def prev_song():
 @app.route('/robots.txt')
 def robots():
 	return send_from_directory(app.static_folder, 'robots.txt')
+
+@app.rout('/playlists')
+def playlists():
+	plists = mpd_controller.get_playlists()
+	return render_template('playlists.html', playlists=plists)
 
 @app.route('/panel', methods=['GET', 'POST'])
 def panel():
