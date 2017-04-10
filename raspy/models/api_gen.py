@@ -32,6 +32,11 @@ class AlarmApiGenerator:
 		data = {}
 		return self.dict_to_json_response(data, status=200)
 
+	def prev_song(self):
+		self.mpd_controller.prev()
+		data = {}
+		return self.dict_to_json_response(data, status=200)
+
 	def set_volume(self, volume):
 		self.mpd_controller.set_volume(int(volume))
 		data = {}

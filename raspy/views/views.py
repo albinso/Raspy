@@ -98,6 +98,11 @@ def next_song():
 	resp = api_gen.next_song()
 	return resp
 
+@app.route('/api/prev')
+def prev_song():
+	resp = api_gen.prev_song()
+	return resp
+
 @app.route('/robots.txt')
 def robots():
 	return send_from_directory(app.static_folder, 'robots.txt')
