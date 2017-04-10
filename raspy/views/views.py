@@ -109,14 +109,15 @@ def robots():
 
 @app.route('/panel', methods=['GET', 'POST'])
 def panel():
+	print(request.method)
 	if request.method == 'POST':
+		print(request.form['submit'])
 		if request.form['submit'] == 'Play':
 			api_gen.play()
 		elif request.form['submit'] == 'Pause':
 			api_gen.pause()
 	
-	elif request.method == 'GET':
-		return render_template('control_panel.html')
+	return render_template('control_panel.html')
 
 
 def main():
