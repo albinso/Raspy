@@ -69,12 +69,12 @@ def api_set_volume(vol):
 	resp = api_gen.set_volume(vol)
 	return resp
 
-@app.route('/api/play')
+@app.route('/api/play', methods=['POST'])
 def api_play():
 	resp = api_gen.play()
 	return resp
 
-@app.route('/api/pause')
+@app.route('/api/pause', methods=['POST'])
 def api_pause():
 	resp = api_gen.pause()
 	return resp
@@ -93,7 +93,7 @@ def light_off():
 	js = json.dumps(data)
 	return Response(js, status=200, mimetype='application/json')
 
-@app.route('/api/next')
+@app.route('/api/next', methods=['POST'])
 def next_song():
 	resp = api_gen.next_song()
 	return resp
@@ -106,6 +106,17 @@ def prev_song():
 @app.route('/robots.txt')
 def robots():
 	return send_from_directory(app.static_folder, 'robots.txt')
+
+@app.route('/panel', methods=['GET', 'POST'])
+def panel():
+	if request.method == 'POST':
+		if request.form['submit'] == 'Play':
+			api_gen.play()
+		elif request.form['submit'] == 'Pause':
+			api_gen.pause()
+	
+	elif request.method == 'GET':
+		return render_template('control_panel.html')
 
 
 def main():
