@@ -1,4 +1,4 @@
-from subprocess import call, Popen, STDOUT
+from subprocess import call, Popen, STDOUT, check_output
 import os
 import time
 
@@ -53,6 +53,11 @@ class MpdController:
 	def prev(self):
 		command = self.make_mpc_command(['prev'])
 		return call(command)
+
+	def get_playlists(self):
+		command = self.make_mpc_command(['lsplaylists'])
+		output = check_output(command)
+		return output
 
 	def make_mpc_command(self, *args):
 		return ['mpc', '-p', '6680'] + args[0]

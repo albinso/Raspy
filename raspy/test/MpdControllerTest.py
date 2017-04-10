@@ -16,4 +16,11 @@ class MpdControllerTest(unittest.TestCase):
 		assert code == 0
 		assert vol == actual_vol
 
+	def test_get_playlists(self):
+		playlists = self.controller.get_playlists()
+		print('Playlists ', playlists)
+		assert len(playlists) > 0
+		assert 'Magic Tavern' in playlists
+
+
 		
