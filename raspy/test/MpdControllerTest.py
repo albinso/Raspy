@@ -19,6 +19,7 @@ class MpdControllerTest(unittest.TestCase):
 	def test_get_playlists(self):
 		playlists = self.controller.get_playlists()
 		print('Playlists ', playlists)
+		assert isinstance(playlists, list)
 		assert len(playlists) > 0
 		assert 'Magic Tavern' in playlists
 

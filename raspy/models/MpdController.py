@@ -57,7 +57,7 @@ class MpdController:
 	def get_playlists(self):
 		command = self.make_mpc_command(['lsplaylists'])
 		output = check_output(command)
-		return output
+		return output.split('\n')
 
 	def make_mpc_command(self, *args):
 		return ['mpc', '-p', '6680'] + args[0]
