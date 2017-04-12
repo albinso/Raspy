@@ -79,14 +79,14 @@ def api_pause():
 	resp = api_gen.pause()
 	return resp
 
-@app.route('/light/on')
+@app.route('/light/on', methods=['POST'])
 def light_on():
 	code = light_controller.light_on()
 	data = {'code': code}
 	js = json.dumps(data)
 	return Response(js, status=200, mimetype='application/json')
 
-@app.route('/light/off')
+@app.route('/light/off', methods=['POST'])
 def light_off():
 	code = light_controller.light_off()
 	data = {'code': code}
@@ -121,7 +121,11 @@ def panel():
 			api_gen.play()
 		elif request.form['submit'] == 'Pause':
 			api_gen.pause()
-	
+		elif request.form['submit'] == 'LightOn':
+			light_controller.light_on()
+		elif request.form['submit'] == 'LightOff':
+			light_controller.light_off()
+		
 	return render_template('control_panel.html')
 
 
