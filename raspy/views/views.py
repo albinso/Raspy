@@ -107,7 +107,7 @@ def prev_song():
 def robots():
 	return send_from_directory(app.static_folder, 'robots.txt')
 
-@app.rout('/playlists')
+@app.route('/playlists')
 def playlists():
 	plists = mpd_controller.get_playlists()
 	return render_template('playlists.html', playlists=plists)
