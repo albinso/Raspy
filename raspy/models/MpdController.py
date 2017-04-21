@@ -2,6 +2,7 @@ from subprocess import call, Popen, STDOUT, check_output
 import os
 import time
 import random
+import math
 
 class MpdController:
 
@@ -29,11 +30,11 @@ class MpdController:
 		return call(self.make_mpc_command(['volume', str(vol)]))
 
 	def raise_volume(self, change):
-		self.vol = Math.min(self.vol + change, 100)
+		self.vol = min(self.vol + change, 100)
 		return call(self.make_mpc_command(['volume', '+'+str(change)]))
 
 	def lower_volume(self, change):
-		self.vol = Math.max(self.vol - change, 0)
+		self.vol = max(self.vol - change, 0)
 		return call(self.make_mpc_command(['volume', '-'+str(change)]))
 
 	def get_volume(self):
