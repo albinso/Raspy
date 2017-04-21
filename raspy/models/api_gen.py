@@ -42,6 +42,16 @@ class AlarmApiGenerator:
 		data = {}
 		return self.dict_to_json_response(data, status=200)
 
+	def raise_volume(self, increment):
+		self.mpd_controller.raise_volume(int(increment))
+		data = {}
+		return self.dict_to_json_response(data, status=200)
+
+	def lower_volume(self, decrement):
+		self.mpd_controller.lower_volume(int(decrement))
+		data = {}
+		return self.dict_to_json_response(data, status=200)
+
 	def play(self):
 		self.mpd_controller.play()
 		data = {}

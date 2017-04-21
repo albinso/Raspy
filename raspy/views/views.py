@@ -125,6 +125,10 @@ def panel():
 			light_controller.light_on()
 		elif request.form['submit'] == 'LightOff':
 			light_controller.light_off()
+		elif request.form['submit'] == 'VolUp':
+			api_gen.raise_volume(10)
+		elif request.form['submit'] == 'VolDown':
+			api_gen.lower_volume(10)
 		
 	return render_template('control_panel.html')
 
