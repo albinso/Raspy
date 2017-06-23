@@ -1,3 +1,6 @@
 {
-  "raspy/test/MpdControllerTest.py::MpdControllerTest::test_get_playlists": true
+  "raspy/test/AlarmApiTest.py": true, 
+  "raspy/test/AlarmHandlerTest.py": true, 
+  "raspy/test/MpdControllerTest.py": true, 
+  "raspy/test/__init__.py": true
 }

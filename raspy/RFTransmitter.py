@@ -14,7 +14,7 @@ short_delay = 0.00045
 long_delay = 0.00090
 extended_delay = 0.0096
 
-NUM_ATTEMPTS = 10
+NUM_ATTEMPTS = 30
 TRANSMIT_PIN = 18
 
 def transmit_code(code):

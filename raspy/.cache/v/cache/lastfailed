@@ -1,0 +1,6 @@
+{
+  "test/AlarmApiTest.py": true, 
+  "test/AlarmHandlerTest.py": true, 
+  "test/MpdControllerTest.py": true, 
+  "test/__init__.py": true
+}
